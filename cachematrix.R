@@ -6,21 +6,29 @@
 
 
 makeCacheMatrix <- function(x=matrix()) {
-        is.matrix(i)
-        i <- NULL
+        i <- NULL #i as the inverse vector of the x input matrix
         set <- function(y) {
                 x <<- y
                 i <<- NULL
-        }
+        } #function to set the input matrix and initialize inverse matrix to 
+        #keep consistency between input matrix and previous inverse matrix 
+        #calculation. Vectors saved in the "makeCacheMatrix" 
+        #specific environment"
+        
         get <- function() x
+        #function to retrieve input matrix  
         
         setinverse <- function(inv) i <<- inv
+        #function to set inverse matrix in the "makeCacheMatrix specific 
+        #environment"
         
         getinverse <- function() i
+        #function to retrieve inverse matrix  
         
         list(set = set, get = get, setinverse = setinverse,
              getinverse = getinverse)
-}
+} #function provide as output a list of functions able to work on variables 
+# defined during run of the  makeCacheMatrix execution
 
 
 ## cacheSolve got a function (and its environment) as input. It got variables
@@ -34,15 +42,21 @@ makeCacheMatrix <- function(x=matrix()) {
 
 
 cacheSolve <- function(x) {
-        ## Return a matrix that is the inverse of 'x'
-        m<-0
-        m <- x$getinverse()
+        
+        m<-0 # "m" as the variable to store retrieved inverse matrix, initialized 
+        m <- x$getinverse() # getinverse function ot the x instance of the 
+        # argument funtion is invoked to return inverse matrix
+        
         if(!is.null(m)){
                 print ("getting cached data")
                 return(m)
+        # returns cahed inverse matrix if any, the string highlights the source 
+        #of the inverse matrix 
         }
-        data <- x$get()
-        n <- solve(data)
-        x$setinverse(n)
+        data <- x$get()  # "data" to store input matrix
+        n <- solve(data) # "n" to store inverse matrix of "data"
+        x$setinverse(n) # store the (inverse) "n" matrix in the argument 
+        #function specific environment
         n
-}
+        ## Return a matrix that is the inverse of 'x'
+        }
